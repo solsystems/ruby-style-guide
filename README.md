@@ -243,20 +243,6 @@ Translations of the guide are available in the following languages:
   the advantage of adding visual difference between block and hash
   literals. Whichever one you pick - apply it consistently.
 
-* <a name="no-spaces-braces"></a>
-  No spaces after `(`, `[` or before `]`, `)`.
-<sup>[[link](#no-spaces-braces)]</sup>
-
-  ```Ruby
-  # bad
-  some( arg ).other
-  [ 1, 2, 3 ].size
-
-  # good
-  some(arg).other
-  [1, 2, 3].size
-  ```
-
 * <a name="no-space-bang"></a>
   No space after `!`.
 <sup>[[link](#no-space-bang)]</sup>
@@ -284,12 +270,11 @@ Translations of the guide are available in the following languages:
     ```
 
 * <a name="indent-when-to-case"></a>
-  Indent `when` as deep as `case`. This is the style established in both
-  "The Ruby Programming Language" and "Programming Ruby".
+  Indent `when` one level further than `case`.
 <sup>[[link](#indent-when-to-case)]</sup>
 
   ```Ruby
-  # bad
+  # good
   case
     when song.name == 'Misty'
       puts 'Not again!'
@@ -301,7 +286,7 @@ Translations of the guide are available in the following languages:
       song.play
   end
 
-  # good
+  # bad
   case
   when song.name == 'Misty'
     puts 'Not again!'
@@ -449,27 +434,10 @@ Translations of the guide are available in the following languages:
   ```
 
 * <a name="consistent-multi-line-chains"></a>
-    Adopt a consistent multi-line method chaining style. There are two
-    popular styles in the Ruby community, both of which are considered
-    good - leading `.` (Option A) and trailing `.` (Option B).
-<sup>[[link](#consistent-multi-line-chains)]</sup>
-
-  * **(Option A)** When continuing a chained method invocation on
-    another line keep the `.` on the second line.
-
-    ```Ruby
-    # bad - need to consult first line to understand second line
-    one.two.three.
-      four
-
-    # good - it's immediately clear what's going on the second line
-    one.two.three
-      .four
-    ```
-
-  * **(Option B)** When continuing a chained method invocation on another line,
+    When continuing a chained method invocation on another line,
     include the `.` on the first line to indicate that the
     expression continues.
+<sup>[[link](#consistent-multi-line-chains)]</sup>
 
     ```Ruby
     # bad - need to read ahead to the second line to know that the chain continues
@@ -480,9 +448,6 @@ Translations of the guide are available in the following languages:
     one.two.three.
       four
     ```
-
-  A discussion on the merits of both alternative styles can be found
-  [here](https://github.com/bbatsov/ruby-style-guide/pull/176).
 
 * <a name="no-double-indent"></a>
     Align the parameters of a method call if they span more than one
@@ -504,14 +469,6 @@ Translations of the guide are available in the following languages:
         from: 'us@example.com',
         subject: 'Important message',
         body: source.text)
-  end
-
-  # good
-  def send_mail(source)
-    Mailer.deliver(to: 'bob@example.com',
-                   from: 'us@example.com',
-                   subject: 'Important message',
-                   body: source.text)
   end
 
   # good (normal indent)
@@ -564,16 +521,13 @@ Translations of the guide are available in the following languages:
 <sup>[[link](#rdoc-conventions)]</sup>
 
 * <a name="80-character-limits"></a>
-  Limit lines to 80 characters.
+  Try to limit lines to 80 characters where possible. At the very least, ensure that your lines don't cross the horizontal fold when viewed in vim using an 8pt font size.
 <sup>[[link](#80-character-limits)]</sup>
 
 * <a name="no-trailing-whitespace"></a>
   Avoid trailing whitespace.
+  Corollary: ensure that your editor is configured to remove trailing whitespace.
 <sup>[[link](#no-trailing-whitespace)]</sup>
-
-* <a name="newline-eof"></a>
-  End each file with a newline.
-<sup>[[link](#newline-eof)]</sup>
 
 * <a name="no-block-comments"></a>
     Don't use block comments. They cannot be preceded by whitespace and are not
@@ -804,7 +758,7 @@ Translations of the guide are available in the following languages:
   ```
 
 * <a name="ternary-operator"></a>
-  Favor the ternary operator(`?:`) over `if/then/else/end` constructs.
+  Favor the ternary operator(`?:`) over `if/then/else/end` constructs for single line conditionals.
   It's more common and obviously more concise.
 <sup>[[link](#ternary-operator)]</sup>
 
@@ -845,28 +799,6 @@ Translations of the guide are available in the following languages:
 
   # good
   result = some_condition ? something : something_else
-  ```
-
-* <a name="use-if-case-returns"></a>
-  Leverage the fact that `if` and `case` are expressions which return a
-  result.
-<sup>[[link](#use-if-case-returns)]</sup>
-
-  ```Ruby
-  # bad
-  if condition
-    result = x
-  else
-    result = y
-  end
-
-  # good
-  result =
-    if condition
-      x
-    else
-      y
-    end
   ```
 
 * <a name="one-line-cases"></a>
@@ -941,24 +873,6 @@ Translations of the guide are available in the following languages:
 * <a name="no-multiline-ternary"></a>
   Avoid multi-line `?:` (the ternary operator); use `if/unless` instead.
 <sup>[[link](#no-multiline-ternary)]</sup>
-
-* <a name="if-as-a-modifier"></a>
-  Favor modifier `if/unless` usage when you have a single-line body. Another
-  good alternative is the usage of control flow `&&/||`.
-<sup>[[link](#if-as-a-modifier)]</sup>
-
-  ```Ruby
-  # bad
-  if some_condition
-    do_something
-  end
-
-  # good
-  do_something if some_condition
-
-  # another good option
-  some_condition && do_something
-  ```
 
 * <a name="no-multiline-if-modifiers"></a>
   Avoid modifier `if/unless` usage at the end of a non-trivial multi-line
@@ -1071,20 +985,6 @@ condition](#safe-assignment-in-condition).
   until x > 5
     # body omitted
   end
-  ```
-
-* <a name="while-as-a-modifier"></a>
-  Favor modifier `while/until` usage when you have a single-line body.
-<sup>[[link](#while-as-a-modifier)]</sup>
-
-  ```Ruby
-  # bad
-  while some_condition
-    do_something
-  end
-
-  # good
-  do_something while some_condition
   ```
 
 * <a name="until-for-negatives"></a>
